@@ -133,6 +133,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
           imageUrl,
         })
           .then((user) => {
+            console.log(user);
             setUser(user.user);
           })
           .catch((error) => {
