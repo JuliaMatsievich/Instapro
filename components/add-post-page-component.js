@@ -1,3 +1,5 @@
+import { uploadImage } from "../api.js";
+
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   const render = () => {
     // TODO: Реализовать страницу добавления поста
@@ -10,7 +12,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
             <div class="upload-image-container">
               <div class="upload-image">
                 <label class="file-upload-label secondary-button">
-                  <input class="file-upload-input" type="file" style="displa:none">Выберите фото
+                  <input class="file-upload-input" type="file" style="display:none">Выберите фото
                 </label>
               </div>
             </div>
@@ -24,12 +26,18 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   `;
 
     appEl.innerHTML = appHtml;
+    const fileInputElement = document.querySelector('.file-upload-input');
+    const fotoDescription = document.querySelector('.textarea');
 
     document.getElementById("add-button").addEventListener("click", () => {
-      onAddPostClick({
-        description: "Описание картинки",
-        imageUrl: "https://image.png",
+      
+      uploadImage({ file: fileInputElement.files[0] })
+      .then(data => {
+        onAddPostClick({
+        description: fotoDescription.value,
+        imageUrl: data.fileUrl
       });
+      })
     });
   };
 
