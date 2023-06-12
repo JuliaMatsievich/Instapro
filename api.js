@@ -71,3 +71,19 @@ export function uploadImage({ file }) {
 }
 
 
+//Добавляет пост
+export function addPosts ({ token, description, imageUrl }) {
+  return fetch(postsHost, {
+    method: "POST",
+    body: JSON.stringify({
+      description,
+      imageUrl
+    }),
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(response => {
+    return response.json()
+  })
+}
