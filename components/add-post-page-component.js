@@ -1,8 +1,9 @@
-import { uploadImage } from "../api.js";
+// import { uploadImage } from "../api.js";
+import { renderUploadImageComponent } from "./upload-image-component.js";
+
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   const render = () => {
-    // TODO: Реализовать страницу добавления поста
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
@@ -28,31 +29,16 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     appEl.innerHTML = appHtml;
     const fileInputElement = document.querySelector('.file-upload-input');
     const fotoDescription = document.querySelector('.textarea');
-    const imageContainer = document.querySelector('.upload-image');
+    const imageContainer = document.querySelector('.upload-image-container');
 
-    fileInputElement.addEventListener('change', () => {
-      uploadImage({ file: fileInputElement.files[0] })
-        .then(data => {
-          const imageMinHtml = `
-            <div class="file-upload-image-container">
-              <img class="file-upload-image" src="${data.fileUrl}">
-              <button class="file-upload-remove-button button">Заменить фото</button>
-            </div>
-          `;
-          imageContainer.innerHTML = imageMinHtml;
-
-          const removeButton = document.querySelector('.file-upload-remove-button');
-
-          removeButton.addEventListener('click', () => {
-            render()
-          })
-        })
-        .catch(error => {
-          console.log(error);
-        })
+    let imageUrl = "";
+    renderUploadImageComponent ({
+      element: imageContainer,
+      onImageUrlChange(newImageUrl) {
+        imageUrl = newImageUrl;
+      } 
     })
 
-    
     document.getElementById("add-button").addEventListener("click", () => {
 
       uploadImage({ file: fileInputElement.files[0] })
