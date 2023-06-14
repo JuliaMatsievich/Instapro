@@ -184,7 +184,7 @@
 .file-upload-image {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  object-fit: contain;
   margin-right: 10px;
   border: 1px solid gray;
   border-radius: 5px;
@@ -195,4 +195,9 @@
   box-sizing: border-box;
   width: 100%;
   text-align: center;
+}
+
+.file-upload-image-container {
+  display: flex;
+  align-items: center;
 }

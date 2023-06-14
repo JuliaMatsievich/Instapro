@@ -28,17 +28,42 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     appEl.innerHTML = appHtml;
     const fileInputElement = document.querySelector('.file-upload-input');
     const fotoDescription = document.querySelector('.textarea');
+    const imageContainer = document.querySelector('.upload-image');
 
-    document.getElementById("add-button").addEventListener("click", () => {
-      
+    fileInputElement.addEventListener('change', () => {
       uploadImage({ file: fileInputElement.files[0] })
-      .then(data => {
-        onAddPostClick({
-        description: fotoDescription.value,
-        imageUrl: data.fileUrl
-      });
-      })
+        .then(data => {
+          const imageMinHtml = `
+            <div class="file-upload-image-container">
+              <img class="file-upload-image" src="${data.fileUrl}">
+              <button class="file-upload-remove-button button">Заменить фото</button>
+            </div>
+          `;
+          imageContainer.innerHTML = imageMinHtml;
+
+          const removeButton = document.querySelector('.file-upload-remove-button');
+
+          removeButton.addEventListener('click', () => {
+            render()
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    })
+
+    
+    document.getElementById("add-button").addEventListener("click", () => {
+
+      uploadImage({ file: fileInputElement.files[0] })
+        .then(data => {
+          onAddPostClick({
+            description: fotoDescription.value,
+            imageUrl: data.fileUrl
+          });
+        })
     });
+
   };
 
   render();

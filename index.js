@@ -111,8 +111,6 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        // TODO: реализовать добавление поста в API
-        console.log("Добавляю пост...", { description, imageUrl });
         addPosts({
           token: getToken(),
           description,
@@ -124,7 +122,6 @@ const renderApp = () => {
         .catch(error => {
           console.log(error);
         })
-        // goToPage(POSTS_PAGE);
       },
     });
   }
