@@ -26,7 +26,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   `;
 
     appEl.innerHTML = appHtml;
-    const fileInputElement = document.querySelector('.file-upload-input');
+    
     const fotoDescription = document.querySelector('.textarea');
     const imageContainer = document.querySelector('.upload-image-container');
 

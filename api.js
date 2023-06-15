@@ -101,3 +101,16 @@ export function getUserPosts ( {token, id} ) {
     return response.json();
   })
 }
+
+//Поставить лайк
+export function getLike({token, id}) {
+  return fetch(postsHost + id + '/like', {
+    method: "POST",
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(response => {
+    return response.json();
+  })
+}
