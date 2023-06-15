@@ -1,4 +1,3 @@
-// import { uploadImage } from "../api.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
 
@@ -40,14 +39,10 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     })
 
     document.getElementById("add-button").addEventListener("click", () => {
-
-      uploadImage({ file: fileInputElement.files[0] })
-        .then(data => {
-          onAddPostClick({
-            description: fotoDescription.value,
-            imageUrl: data.fileUrl
-          });
-        })
+      onAddPostClick({
+        description: fotoDescription.value,
+        imageUrl: imageUrl
+      });
     });
 
   };

@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
-import { getPosts } from "../api.js";
+
 
 export function renderPostsPageComponent({ appEl }) {
   /**
@@ -21,7 +21,7 @@ export function renderPostsPageComponent({ appEl }) {
 
     return `
           <li class="post">
-          <div class="post-header" data-user-id="642d00329b190443860c2f31">
+          <div class="post-header" data-user-id="${post.user.id}">
               <img src="${post.user.imageUrl}" class="post-header__user-image">
               <p class="post-header__user-name">${post.user.name}</p>
           </div>
@@ -59,6 +59,8 @@ export function renderPostsPageComponent({ appEl }) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
         userId: userEl.dataset.userId,
+        userImage: userEl.querySelector('.post-header__user-image').getAttribute('src'),
+        userName: userEl.querySelector('.post-header__user-name').textContent
       });
     });
   }

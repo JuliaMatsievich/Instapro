@@ -87,3 +87,17 @@ export function addPosts ({ token, description, imageUrl }) {
     return response.json()
   })
 }
+
+
+//Получить посты конкретного пользователя
+export function getUserPosts ( {token, id} ) {
+  return fetch(postsHost + '/user-posts/' + id, {
+    method: "GET",
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(response => {
+    return response.json();
+  })
+}
