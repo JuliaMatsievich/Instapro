@@ -1,7 +1,8 @@
-import { USER_POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
-
+import { posts, goToPage, getToken } from "../index.js";
+import { getLike } from "../api.js";
+import { likeDislike } from "./likes-post-component.js";
 
 export function renderPostsPageComponent({ appEl }) {
   /**
@@ -30,10 +31,13 @@ export function renderPostsPageComponent({ appEl }) {
           </div>
           <div class="post-likes">
             <button data-post-id="${post.id}" class="like-button">
-              <img src="./assets/images/like-active.svg">
+              <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
             </button>
             <p class="post-likes-text">
               Нравится: <strong>${post.likes.length}</strong>
+              ${post.isLiked ? 
+                `<p class="post-likes-name">${post.likes[0].name}</p>`
+                 : "" }
             </p>
           </div>
           <p class="post-text">
@@ -58,10 +62,16 @@ export function renderPostsPageComponent({ appEl }) {
   for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
-        userId: userEl.dataset.userId,
-        userImage: userEl.querySelector('.post-header__user-image').getAttribute('src'),
-        userName: userEl.querySelector('.post-header__user-name').textContent
-      });
+        userId: userEl.dataset.userId
+      })
     });
+  }
+
+  for (let likeBtn of document.querySelectorAll('.like-button')) {
+    likeBtn.addEventListener('click', () => {
+      likeDislike({
+        token: getToken(),
+        id: likeBtn.dataset.postId})
+    })
   }
 }

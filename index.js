@@ -22,7 +22,7 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
-const getToken = () => {
+export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
 };
@@ -78,12 +78,9 @@ export const goToPage = (newPage, data) => {
       .then(newPosts => {
         page = USER_POSTS_PAGE;
         posts = newPosts;
-        // console.log(posts);
         renderApp();
       })
       
-      // posts = [];
-      // return renderApp();
     }
 
     page = newPage;
@@ -145,14 +142,9 @@ const renderApp = () => {
   }
 
   if (page === USER_POSTS_PAGE) {
-    // TODO: реализовать страницу фотографию пользвателя
-
-    // appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-    return renderUserPosts({
+   return renderUserPosts({
       appEl,
     });
-    
-    // return;
   }
 };
 

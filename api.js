@@ -104,7 +104,7 @@ export function getUserPosts ( {token, id} ) {
 
 //Поставить лайк
 export function getLike({token, id}) {
-  return fetch(postsHost + id + '/like', {
+  return fetch(postsHost+ "/" + id + '/like', {
     method: "POST",
     headers: {
       Authorization: token
