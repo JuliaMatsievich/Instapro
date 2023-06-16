@@ -114,3 +114,16 @@ export function getLike({token, id}) {
     return response.json();
   })
 }
+
+//Убрать лайк
+export function removeLike({token, id}) {
+  return fetch(postsHost+ "/" + id + '/dislike', {
+    method: "POST",
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(response => {
+    return response.json();
+  })
+}
