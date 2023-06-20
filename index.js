@@ -36,6 +36,20 @@ export const logout = () => {
 /**
  * Включает страницу приложения
  */
+
+export const renewPosts = () => {
+
+  return getPosts({ token: getToken() })
+  .then((newPosts) => {
+    posts = newPosts;
+    renderApp();
+  })
+  .catch((error) => {
+    console.error(error);
+    goToPage(POSTS_PAGE);
+  });
+  };
+
 export const goToPage = (newPage, data) => {
   if (
     [

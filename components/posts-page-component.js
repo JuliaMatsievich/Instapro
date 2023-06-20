@@ -1,8 +1,9 @@
-import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE} from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken } from "../index.js";
-import { getLike } from "../api.js";
-import { likeDislike } from "./likes-post-component.js";
+import { posts, goToPage, getToken, renewPosts  } from "../index.js";
+import { getLike, removeLike } from "../api.js";
+
+
 
 export function renderPostsPageComponent({ appEl }) {
   /**
@@ -18,7 +19,7 @@ export function renderPostsPageComponent({ appEl }) {
     </ul>
   </div>`;
 
-  const postHtml = posts.map((post) => {    
+  const postHtml = posts.map((post) => {
 
     return `
           <li class="post">
@@ -30,16 +31,16 @@ export function renderPostsPageComponent({ appEl }) {
             <img class="post-image" src="${post.imageUrl}">
           </div>
           <div class="post-likes">
-            <button data-post-id="${post.id}" class="like-button">
+            <button data-post-id="${post.id}" data-post-isliked="${post.isLiked}" class="like-button">
               <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
             </button>
             <p class="post-likes-text">
               Нравится: <strong>${post.likes.length}</strong>
-              ${post.isLiked ? 
-                `<p class="post-likes-name">${post.likes[0].name}                
+              ${post.isLiked ?
+        `<p class="post-likes-name">${post.likes[0].name}                
                 </p>`
-                 : "" }
-                 ${(post.likes.length >= 1) ? `<span>&nbsp;и ещё&nbsp;</span> ${post.likes.length - 1}`  : ""}
+        : ""}
+                 ${(post.likes.length > 1) ? `<span>&nbsp;и ещё&nbsp;</span> ${post.likes.length - 1}` : ""}
             </p>
           </div>
           <p class="post-text">
@@ -52,7 +53,7 @@ export function renderPostsPageComponent({ appEl }) {
           </li>
           `
   })
-    
+
   appEl.innerHTML = appHtml;
   const postsList = document.querySelector('.posts');
   postsList.innerHTML = postHtml.join('');
@@ -71,9 +72,21 @@ export function renderPostsPageComponent({ appEl }) {
 
   for (let likeBtn of document.querySelectorAll('.like-button')) {
     likeBtn.addEventListener('click', () => {
-      likeDislike({
-        token: getToken(),
-        id: likeBtn.dataset.postId})
+      if (likeBtn.dataset.postIsliked === 'true') {
+        removeLike({
+           token: getToken(), 
+           id: likeBtn.dataset.postId
+           })
+          .then(() => {
+            renewPosts()
+          })
+      } else {
+        getLike({
+          token: getToken(), 
+          id: likeBtn.dataset.postId
+          })
+          .then(() => { renewPosts() })
+      }
     })
   }
 }
