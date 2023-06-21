@@ -42,9 +42,6 @@ export const renderPosts = () => {
     renderApp();
   })
   .catch((error) => {
-    if(error.message = "Нет авторизации") {
-      alert(error.message);
-    }
     console.error(error);
     goToPage(POSTS_PAGE);
   });
@@ -82,9 +79,6 @@ export const goToPage = (newPage, data) => {
           renderApp();
         })
         .catch((error) => {
-          if(error.message = "Нет авторизации") {
-            alert(error.message);
-          }
           console.error(error);
           goToPage(POSTS_PAGE);
         });
@@ -101,9 +95,6 @@ export const goToPage = (newPage, data) => {
         renderApp();
       })
       .catch(error => {
-        if(error.message = "Нет авторизации") {
-          alert(error.message);
-        }
         console.log(error);
       })
     }

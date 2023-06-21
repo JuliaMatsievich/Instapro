@@ -1,6 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, getToken, renderPosts  } from "../index.js";
+import { setLike, removeLike } from "../api.js";
 
 export function renderUserPosts({appEl}) {
 
@@ -60,4 +61,37 @@ export function renderUserPosts({appEl}) {
 		 });
 	  });
 	}
+
+	
+	for (let likeBtn of document.querySelectorAll('.like-button')) {
+		likeBtn.addEventListener('click', () => {
+		  if (likeBtn.dataset.postIsliked === 'true') {
+			 removeLike({
+				 token: getToken(), 
+				 id: likeBtn.dataset.postId
+				 })
+				.then(() => {
+				  renderPosts()
+				})
+				.catch(error => {
+				  if(error.message === 'Нет авторизации') {
+					 alert ('Лайк могут поставить только авторизованные пользователи')
+				  }
+				  console.log(error.message);
+				})
+		  } else {
+			 setLike({
+				token: getToken(), 
+				id: likeBtn.dataset.postId
+				})
+				.then(() => { renderPosts() })
+				.catch(error => {
+				  if(error.message === 'Нет авторизации') {
+					 alert ('Лайк иогут поставить только авторизованные пользователи')
+				  }
+				  console.log(error.message);
+				})
+		  }
+		})
+	 }
 }

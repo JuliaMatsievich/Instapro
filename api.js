@@ -13,10 +13,7 @@ export function getPosts({ token }) {
     },
   })
     .then((response) => {
-      if (response.status === 401) {
-        throw new Error("Нет авторизации");
-      }
-      return response.json();
+       return response.json();
     })
     .then((data) => {
       return data.posts;
