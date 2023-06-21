@@ -79,8 +79,16 @@ export function renderAuthPageComponent({ appEl, setUser }) {
       setError("");
 
       if (isLoginMode) {
-        const login = document.getElementById("login-input").value;
-        const password = document.getElementById("password-input").value;
+        const login = document.getElementById("login-input").value.
+                      replaceAll("<", "&lt;").
+                      replaceAll(">", "&gt;").
+                      replaceAll("/**", "<div class='quote'>").
+                      replaceAll("**/", "</div>");
+        const password = document.getElementById("password-input").value.
+                      replaceAll("<", "&lt;").
+                      replaceAll(">", "&gt;").
+                      replaceAll("/**", "<div class='quote'>").
+                      replaceAll("**/", "</div>");
 
         if (!login) {
           alert("Введите логин");
@@ -104,9 +112,21 @@ export function renderAuthPageComponent({ appEl, setUser }) {
             setError(error.message);
           });
       } else {
-        const login = document.getElementById("login-input").value;
-        const name = document.getElementById("name-input").value;
-        const password = document.getElementById("password-input").value;
+        const login = document.getElementById("login-input").value.
+                      replaceAll("<", "&lt;").
+                      replaceAll(">", "&gt;").
+                      replaceAll("/**", "<div class='quote'>").
+                      replaceAll("**/", "</div>");
+        const name = document.getElementById("name-input").value.
+                      replaceAll("<", "&lt;").
+                      replaceAll(">", "&gt;").
+                      replaceAll("/**", "<div class='quote'>").
+                      replaceAll("**/", "</div>");
+        const password = document.getElementById("password-input").value.
+                      replaceAll("<", "&lt;").
+                      replaceAll(">", "&gt;").
+                      replaceAll("/**", "<div class='quote'>").
+                      replaceAll("**/", "</div>");
         if (!name) {
           alert("Введите имя");
           return;

@@ -34,7 +34,7 @@ export const logout = () => {
 };
 
 
-export const renewPosts = () => {
+export const renderPosts = () => {
 
   return getPosts({ token: getToken() })
   .then((newPosts) => {
@@ -42,6 +42,9 @@ export const renewPosts = () => {
     renderApp();
   })
   .catch((error) => {
+    if(error.message = "Нет авторизации") {
+      alert(error.message);
+    }
     console.error(error);
     goToPage(POSTS_PAGE);
   });
@@ -79,14 +82,15 @@ export const goToPage = (newPage, data) => {
           renderApp();
         })
         .catch((error) => {
+          if(error.message = "Нет авторизации") {
+            alert(error.message);
+          }
           console.error(error);
           goToPage(POSTS_PAGE);
         });
     }
 
     if (newPage === USER_POSTS_PAGE) {
-      // TODO: реализовать получение постов юзера из API
-      console.log("Открываю страницу пользователя: ", data.userId);
      return getUserPosts({
         token: getToken(),
         id: data.userId
@@ -96,7 +100,12 @@ export const goToPage = (newPage, data) => {
         posts = newPosts;
         renderApp();
       })
-      
+      .catch(error => {
+        if(error.message = "Нет авторизации") {
+          alert(error.message);
+        }
+        console.log(error);
+      })
     }
 
     page = newPage;
@@ -104,8 +113,6 @@ export const goToPage = (newPage, data) => {
 
     return;
   }
-
-  throw new Error("страницы не существует");
 };
 
 const renderApp = () => {
@@ -145,6 +152,9 @@ const renderApp = () => {
           goToPage(POSTS_PAGE);
         })
         .catch(error => {
+          if(error.message = "Нет авторизации") {
+            alert(error.message);
+          }
           console.log(error);
         })
       },

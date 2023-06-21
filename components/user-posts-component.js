@@ -22,12 +22,17 @@ export function renderUserPosts({appEl}) {
 				 <img class="post-image" src="${post.imageUrl}">
 			  </div>
 			  <div class="post-likes">
-				 <button data-post-id="${post.id}" class="like-button">
-					<img src="./assets/images/like-active.svg">
-				 </button>
-				 <p class="post-likes-text">
-					Нравится: <strong>${post.likes.length}</strong>
-				 </p>
+			  <button data-post-id="${post.id}" data-post-isliked="${post.isLiked}" class="like-button">
+			  <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
+			</button>
+			<p class="post-likes-text">
+			  Нравится: <strong>${post.likes.length}</strong>
+			  ${(post.likes.length >= 1) ?
+	  `<p class="post-likes-name">${post.likes[post.likes.length - 1].name}                
+				 </p>`
+	  : ""}
+				  ${(post.likes.length > 1) ? `<span>&nbsp;и ещё&nbsp;</span> ${post.likes.length - 1}` : ""}
+			</p>
 			  </div>
 			  <p class="post-text">
 				 <span class="user-name">${post.user.name}</span>

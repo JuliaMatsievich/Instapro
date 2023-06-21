@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE} from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken, renewPosts  } from "../index.js";
-import { getLike, removeLike } from "../api.js";
+import { posts, goToPage, getToken, renderPosts  } from "../index.js";
+import { setLike, removeLike } from "../api.js";
 
 
 
@@ -37,7 +37,7 @@ export function renderPostsPageComponent({ appEl }) {
             <p class="post-likes-text">
               Нравится: <strong>${post.likes.length}</strong>
               ${(post.likes.length >= 1) ?
-        `<p class="post-likes-name">${post.likes[0].name}                
+        `<p class="post-likes-name">${post.likes[post.likes.length - 1].name}                
                 </p>`
         : ""}
                  ${(post.likes.length > 1) ? `<span>&nbsp;и ещё&nbsp;</span> ${post.likes.length - 1}` : ""}
@@ -78,14 +78,26 @@ export function renderPostsPageComponent({ appEl }) {
            id: likeBtn.dataset.postId
            })
           .then(() => {
-            renewPosts()
+            renderPosts()
+          })
+          .catch(error => {
+            if(error.message === 'Нет авторизации') {
+              alert ('Лайк могут поставить только авторизованные пользователи')
+            }
+            console.log(error.message);
           })
       } else {
-        getLike({
+        setLike({
           token: getToken(), 
           id: likeBtn.dataset.postId
           })
-          .then(() => { renewPosts() })
+          .then(() => { renderPosts() })
+          .catch(error => {
+            if(error.message === 'Нет авторизации') {
+              alert ('Лайк иогут поставить только авторизованные пользователи')
+            }
+            console.log(error.message);
+          })
       }
     })
   }

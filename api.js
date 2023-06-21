@@ -16,7 +16,6 @@ export function getPosts({ token }) {
       if (response.status === 401) {
         throw new Error("Нет авторизации");
       }
-
       return response.json();
     })
     .then((data) => {
@@ -98,12 +97,15 @@ export function getUserPosts ( {token, id} ) {
     }
   })
   .then(response => {
+    if (response.status === 401) {
+      throw new Error("Нет авторизации");
+    }
     return response.json();
   })
 }
 
 //Поставить лайк
-export function getLike({token, id}) {
+export function setLike({token, id}) {
   return fetch(postsHost+ "/" + id + '/like', {
     method: "POST",
     headers: {
@@ -111,6 +113,9 @@ export function getLike({token, id}) {
     }
   })
   .then(response => {
+    if (response.status === 401) {
+      throw new Error("Нет авторизации");
+    }
     return response.json();
   })
 }
@@ -124,6 +129,9 @@ export function removeLike({token, id}) {
     }
   })
   .then(response => {
+    if (response.status === 401) {
+      throw new Error("Нет авторизации");
+    }
     return response.json();
   })
 }
