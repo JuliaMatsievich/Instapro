@@ -39,8 +39,25 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     })
 
     document.getElementById("add-button").addEventListener("click", () => {
+
+      if(!fotoDescription.value) {
+        alert("Добавьте описание к фотографии");
+        return
+      }
+
+      
+      if (!imageUrl) {
+        alert("Не выбрана фотография");
+        return;
+      }
+
+
       onAddPostClick({
-        description: fotoDescription.value,
+        description: fotoDescription.value.
+                    replaceAll("<", "&lt;").
+                    replaceAll(">", "&gt;").
+                    replaceAll("/**", "<div class='quote'>").
+                    replaceAll("**/", "</div>"),
         imageUrl: imageUrl
       });
     });
