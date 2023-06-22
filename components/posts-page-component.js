@@ -11,6 +11,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
+  
 //Рендер страницы Юзера
   if(userPosts) {
     const appHtml = `
@@ -60,6 +61,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           </li>
           `
     })
+
     appEl.innerHTML = appHtml;
     const postsList = document.querySelector('.posts');
     postsList.innerHTML = postHtml.join('');
@@ -74,12 +76,14 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
         .then(()=> {
           renderPosts(true, user._id)
         })
+        .catch(error => {
+          console.err(error);
+        })
       })
      }
-
   }
-//Рендер общей страницы постов
 
+//Рендер общей страницы постов
   else {
     const appHtml = `
     <div class="page-container">
@@ -128,8 +132,6 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     postsList.innerHTML = postHtml.join('');
 
   }
-
- 
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),

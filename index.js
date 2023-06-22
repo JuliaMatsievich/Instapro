@@ -43,7 +43,7 @@ export const renderPosts = (userPosts,id) => {
       renderApp();
     })
     .catch(error => {
-      console.log(error);
+      console.err(error);
     })
   }
   else {
