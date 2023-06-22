@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE} from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, getToken, renderPosts, user  } from "../index.js";
-import { setLike, removeLike } from "../api.js";
+import { setLike, removeLike, deletePosts } from "../api.js";
 import {ru} from "date-fns/locale";
 import { formatDistanceToNow } from "date-fns";
 
@@ -34,7 +34,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           <div class="post-likes">
           ${
             user._id === post.user.id
-              ? `<button title="Удалить пост" data-user-id="${user._id}" class="delete-button"></button>`
+              ? `<button title="Удалить пост" data-user-id="${user._id}" data-post-id="${post.id}" class="delete-button"></button>`
               : ""
           }  
           
@@ -63,6 +63,20 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     appEl.innerHTML = appHtml;
     const postsList = document.querySelector('.posts');
     postsList.innerHTML = postHtml.join('');
+
+    const deleteButton = document.querySelector('.delete-button');
+     if(deleteButton) {
+      deleteButton.addEventListener('click', () => {
+        deletePosts({
+          token: getToken(),
+          id: deleteButton.dataset.postId
+        })
+        .then(()=> {
+          renderPosts(true, user._id)
+        })
+      })
+     }
+
   }
 //Рендер общей страницы постов
 
@@ -152,7 +166,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           id: likeBtn.dataset.postId
           })
           .then((post) => {
-            const userId = post.post.user.id;            
+            const userId = post.post.user.id;
             renderPosts(userPosts, userId)
           })
           .catch(error => {

@@ -49,8 +49,6 @@ export function renderHeaderComponent({ element }) {
 
   if(userButton)  {
     userButton.addEventListener('click', () => {
-      console.log('userButton');
-      console.log(userButton.dataset.userId);
       goToPage(USER_POSTS_PAGE,  {
         userId: userButton.dataset.userId
       });
