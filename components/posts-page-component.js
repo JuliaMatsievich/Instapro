@@ -11,7 +11,6 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  // const createDate = formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru})
 
   if(userPosts) {
     const appHtml = `

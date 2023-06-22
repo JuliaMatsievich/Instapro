@@ -1,5 +1,5 @@
 import { goToPage, logout, user } from "../index.js";
-import { ADD_POSTS_PAGE, AUTH_PAGE, POSTS_PAGE } from "../routes.js";
+import { ADD_POSTS_PAGE, AUTH_PAGE, POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 
 export function renderHeaderComponent({ element }) {
   element.innerHTML = `
@@ -12,6 +12,13 @@ export function renderHeaderComponent({ element }) {
           : "Войти"
       }
       </button>
+      ${
+        user
+          ? `<button title="${user.name}" data-user-id="${user._id}" class="header-button user-button">
+          <img src="${user.imageUrl}" class="post-header__user-image">
+            </button>`
+          : ""
+      }  
       ${
         user
           ? `<button title="${user.name}" class="header-button logout-button">Выйти</button>`
@@ -37,6 +44,19 @@ export function renderHeaderComponent({ element }) {
   });
 
   element.querySelector(".logout-button")?.addEventListener("click", logout);
+
+  const userButton = element.querySelector('.user-button');
+
+  if(userButton)  {
+    userButton.addEventListener('click', () => {
+      console.log('userButton');
+      console.log(userButton.dataset.userId);
+      goToPage(USER_POSTS_PAGE,  {
+        userId: userButton.dataset.userId
+      });
+    })
+  }
+
 
   return element;
 }
