@@ -34,18 +34,32 @@ export const logout = () => {
 };
 
 
-export const renderPosts = () => {
-
-  return getPosts({ token: getToken() })
-  .then((newPosts) => {
-    posts = newPosts;
-    renderApp();
-  })
-  .catch((error) => {
-    console.error(error);
-    goToPage(POSTS_PAGE);
-  });
-  };
+export const renderPosts = (userPosts,id) => {
+  if(userPosts) {
+    return getUserPosts({
+      token: getToken(),
+      id: id
+    })
+    .then(newPosts => {
+      posts = newPosts;
+      renderApp();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+  else {
+    return getPosts({ token: getToken() })
+    .then((newPosts) => {
+      posts = newPosts;
+      renderApp();
+    })
+    .catch((error) => {
+      console.error(error);
+      goToPage(POSTS_PAGE);
+    });
+  }
+};
 
 
 /**
@@ -159,8 +173,9 @@ const renderApp = () => {
   }
 
   if (page === USER_POSTS_PAGE) {
-   return renderUserPosts({
+   return renderPostsPageComponent({
       appEl,
+      userPosts: true
     });
   }
 };
