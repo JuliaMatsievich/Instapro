@@ -14,6 +14,30 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
   
 //Рендер страницы Юзера
   if(userPosts) {
+
+
+    const emptyPosts = !Object.keys(posts).length;
+    if(!emptyPosts ) {
+      
+    const appHtml = `
+    <div class="page-container">
+      <div class="header-container"></div>
+      <div class="posts-user-header">
+        <img class="posts-user-header__user-image" src="${user.imageUrl}">
+        <p class="posts-user-header__user-name">${user.name}</p>
+      </div>
+    <ul class="posts">
+      У вас ещё нет опубликованных постов
+      </ul>
+    </div>`;
+
+    appEl.innerHTML = appHtml;
+    renderHeaderComponent({
+      element: document.querySelector(".header-container"),
+    });
+    }
+
+
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
@@ -25,6 +49,8 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     
       </ul>
     </div>`;
+
+
     const postHtml = posts.posts.map((post) => {
       const createDate = formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru})
       return `

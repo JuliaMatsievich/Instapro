@@ -43,7 +43,7 @@ export const renderPosts = (userPosts, id) => {
         renderApp();
       })
       .catch(error => {
-        console.err(error);
+        console.error(error);
         alert('Кажется, что-то сломалось, попробуйте позже')
       })
   }
@@ -109,6 +109,7 @@ export const goToPage = (newPage, data) => {
         .then(newPosts => {
           page = USER_POSTS_PAGE;
           posts = newPosts;
+
           renderApp();
         })
         .catch(error => {
