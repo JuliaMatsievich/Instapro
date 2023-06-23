@@ -66,6 +66,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     const postsList = document.querySelector('.posts');
     postsList.innerHTML = postHtml.join('');
 
+    //Кнопка Удалить пост
     const deleteButton = document.querySelector('.delete-button');
      if(deleteButton) {
       deleteButton.addEventListener('click', () => {
@@ -77,7 +78,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           renderPosts(true, user._id)
         })
         .catch(error => {
-          console.err(error);
+          console.error(error);
         })
       })
      }
@@ -137,6 +138,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     element: document.querySelector(".header-container"),
   });
 
+  //Клик по иконке юзера и переход на его страницу
   for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
@@ -145,6 +147,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     });
   }
 
+  //Кнопка Лайк
   for (let likeBtn of document.querySelectorAll('.like-button')) {
     likeBtn.addEventListener('click', () => {
       if (likeBtn.dataset.postIsliked === 'true') {
