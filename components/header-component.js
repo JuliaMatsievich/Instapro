@@ -45,10 +45,11 @@ export function renderHeaderComponent({ element }) {
 
   element.querySelector(".logout-button")?.addEventListener("click", logout);
 
-  const userButton = element.querySelector('.user-button');
+  //Клик по кнопке профиля
+const userButton = element.querySelector('.user-button');
 
   if(userButton)  {
-    userButton.addEventListener('click', () => {
+    userButton.addEventListener('click', () => {      
       goToPage(USER_POSTS_PAGE,  {
         userId: userButton.dataset.userId
       });
