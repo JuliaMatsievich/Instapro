@@ -76,6 +76,7 @@ export const goToPage = (newPage, data) => {
   ) {
     if (newPage === ADD_POSTS_PAGE) {
       // Если пользователь не авторизован, то отправляем его на авторизацию перед добавлением поста
+
       page = user ? ADD_POSTS_PAGE : AUTH_PAGE;
       return renderApp();
     }
@@ -97,6 +98,9 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
+      page = LOADING_PAGE;
+      renderApp();
+
      return getUserPosts({
         token: getToken(),
         id: data.userId
@@ -107,7 +111,7 @@ export const goToPage = (newPage, data) => {
         renderApp();
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       })
     }
 

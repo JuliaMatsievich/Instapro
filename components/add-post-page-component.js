@@ -38,7 +38,9 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       } 
     })
 
-    document.getElementById("add-button").addEventListener("click", () => {
+    const addBtn = document.getElementById("add-button");
+
+    addBtn.addEventListener("click", () => {
 
       if(!fotoDescription.value) {
         alert("Добавьте описание к фотографии");
@@ -51,6 +53,8 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         return;
       }
 
+      addBtn.setAttribute("disabled", true);
+      addBtn.textContent = "Добавляю пост...";
 
       onAddPostClick({
         description: fotoDescription.value.
