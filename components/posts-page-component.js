@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE} from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, getToken, renderPosts  } from "../index.js";
-import { setLike, removeLike } from "../api.js";
+import { posts, goToPage, getToken, renderPosts, user  } from "../index.js";
+import { setLike, removeLike, deletePosts } from "../api.js";
 import {ru} from "date-fns/locale";
 import { formatDistanceToNow } from "date-fns";
 
@@ -11,8 +11,8 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  // const createDate = formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru})
-
+  
+//Рендер страницы Юзера
   if(userPosts) {
     const appHtml = `
     <div class="page-container">
@@ -33,6 +33,12 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
            <img class="post-image" src="${post.imageUrl}">
           </div>
           <div class="post-likes">
+          ${
+            user._id === post.user.id
+              ? `<button title="Удалить пост" data-user-id="${user._id}" data-post-id="${post.id}" class="delete-button"></button>`
+              : ""
+          }  
+          
           <button data-post-id="${post.id}" data-post-isliked="${post.isLiked}" class="like-button">
           <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
         </button>
@@ -55,11 +61,29 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           </li>
           `
     })
+
     appEl.innerHTML = appHtml;
     const postsList = document.querySelector('.posts');
     postsList.innerHTML = postHtml.join('');
+
+    const deleteButton = document.querySelector('.delete-button');
+     if(deleteButton) {
+      deleteButton.addEventListener('click', () => {
+        deletePosts({
+          token: getToken(),
+          id: deleteButton.dataset.postId
+        })
+        .then(()=> {
+          renderPosts(true, user._id)
+        })
+        .catch(error => {
+          console.err(error);
+        })
+      })
+     }
   }
 
+//Рендер общей страницы постов
   else {
     const appHtml = `
     <div class="page-container">
@@ -109,8 +133,6 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
 
   }
 
- 
-
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
@@ -146,7 +168,7 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
           id: likeBtn.dataset.postId
           })
           .then((post) => {
-            const userId = post.post.user.id;            
+            const userId = post.post.user.id;
             renderPosts(userPosts, userId)
           })
           .catch(error => {

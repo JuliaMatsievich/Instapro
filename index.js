@@ -32,30 +32,31 @@ export const logout = () => {
 };
 
 
-export const renderPosts = (userPosts,id) => {
-  if(userPosts) {
+export const renderPosts = (userPosts, id) => {
+  if (userPosts) {
     return getUserPosts({
       token: getToken(),
       id: id
     })
-    .then(newPosts => {
-      posts = newPosts;
-      renderApp();
-    })
-    .catch(error => {
-      console.log(error);
-    })
+      .then(newPosts => {
+        posts = newPosts;
+        renderApp();
+      })
+      .catch(error => {
+        console.err(error);
+        alert('Кажется, что-то сломалось, попробуйте позже')
+      })
   }
   else {
     return getPosts({ token: getToken() })
-    .then((newPosts) => {
-      posts = newPosts;
-      renderApp();
-    })
-    .catch((error) => {
-      console.error(error);
-      goToPage(POSTS_PAGE);
-    });
+      .then((newPosts) => {
+        posts = newPosts;
+        renderApp();
+      })
+      .catch((error) => {
+        console.error(error);
+        goToPage(POSTS_PAGE);
+      });
   }
 };
 
@@ -76,6 +77,7 @@ export const goToPage = (newPage, data) => {
   ) {
     if (newPage === ADD_POSTS_PAGE) {
       // Если пользователь не авторизован, то отправляем его на авторизацию перед добавлением поста
+
       page = user ? ADD_POSTS_PAGE : AUTH_PAGE;
       return renderApp();
     }
@@ -97,18 +99,22 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
-     return getUserPosts({
+      page = LOADING_PAGE;
+      renderApp();
+
+      return getUserPosts({
         token: getToken(),
         id: data.userId
       })
-      .then(newPosts => {
-        page = USER_POSTS_PAGE;
-        posts = newPosts;
-        renderApp();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+        .then(newPosts => {
+          page = USER_POSTS_PAGE;
+          posts = newPosts;
+          renderApp();
+        })
+        .catch(error => {
+          console.error(error);
+          alert('Кажется, что-то сломалось, попробуйте позже')
+        })
     }
 
     page = newPage;
@@ -120,7 +126,7 @@ export const goToPage = (newPage, data) => {
 
 const renderApp = () => {
   const appEl = document.getElementById("app");
-  
+
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
       appEl,
@@ -151,15 +157,16 @@ const renderApp = () => {
           description,
           imageUrl
         })
-        .then(data => {
-          goToPage(POSTS_PAGE);
-        })
-        .catch(error => {
-          if(error.message = "Нет авторизации") {
-            alert(error.message);
-          }
-          console.log(error);
-        })
+          .then(data => {
+            goToPage(POSTS_PAGE);
+          })
+          .catch(error => {
+            if (error.message = "Нет авторизации") {
+              alert(error.message);
+            }
+            console.error(error);
+            alert('Кажется, что-то сломалось, попробуйте позже');
+          })
       },
     });
   }
@@ -171,7 +178,7 @@ const renderApp = () => {
   }
 
   if (page === USER_POSTS_PAGE) {
-   return renderPostsPageComponent({
+    return renderPostsPageComponent({
       appEl,
       userPosts: true
     });

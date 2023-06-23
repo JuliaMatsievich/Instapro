@@ -116,7 +116,7 @@ export function setLike({token, id}) {
 
 //Убрать лайк
 export function removeLike({token, id}) {
-  return fetch(postsHost+ "/" + id + '/dislike', {
+  return fetch(postsHost + "/" + id + '/dislike', {
     method: "POST",
     headers: {
       Authorization: token
@@ -128,4 +128,18 @@ export function removeLike({token, id}) {
     }
     return response.json();
   })
+}
+
+
+//Удалить пост
+export function deletePosts({ token,id }) {
+  return fetch(postsHost + "/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+       return response.json();
+    })
 }
