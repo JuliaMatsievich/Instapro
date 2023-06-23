@@ -26,7 +26,6 @@ export function renderHeaderComponent({ element }) {
       }  
       </button>
   </div>
-  
 `;
 
   element
@@ -55,7 +54,6 @@ const userButton = element.querySelector('.user-button');
       });
     })
   }
-
 
   return element;
 }
