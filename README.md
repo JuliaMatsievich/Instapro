@@ -1,10 +1,37 @@
 # Instapro
+Учебный проект школы Skypro
 
+## Описание
 MVP аналога популярной соц. сети для обмена фотографиями
 
-## Ссылка на приложение:
+## Технолгии
+- HTML
+- CSS
+- Javascript
+- Webpack
 
-https://juliamatsievich.github.io/webdev-cw-instapro/
+
+## Как запустить проект локально
+
+1. Клонировать репозиторий
+
+```
+git clone https://github.com/JuliaMatsievich/Instapro
+```
+
+2.Установить необходимые зависимости
+
+```
+npm install
+```
+
+3. Запустить приложение с помощью следующей команды
+
+```
+npm run start
+```
+
+Проект запустится по адресу: http://localhost:3000
 
 ## Первоначальная оценка
 
