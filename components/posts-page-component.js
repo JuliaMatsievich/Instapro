@@ -37,7 +37,6 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     });
     }
 
-
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
@@ -49,7 +48,6 @@ export function renderPostsPageComponent({ appEl, userPosts }) {
     
       </ul>
     </div>`;
-
 
     const postHtml = posts.posts.map((post) => {
       const createDate = formatDistanceToNow(new Date(post.createdAt), {addSuffix: true, locale: ru})
